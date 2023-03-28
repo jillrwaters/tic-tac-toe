@@ -4,6 +4,8 @@ class Board
              "_4_|_5_|_6_",
              " 7 | 8 | 9 "]
 
+  
+
   def initialize
     # Initialize an empty board
     @@board
@@ -30,6 +32,28 @@ class Board
 
   def winner
     # Check if there is a winner (X or O) on the board
+    # Convert the board to a 2D array
+board = board.map { |row| row.gsub('_', ' ').split(' | ') }
+
+# Check all possible winning combinations
+winning_combinations = [
+  [0, 0, 0, 1, 0, 2], # top row
+  [1, 0, 1, 1, 1, 2], # middle row
+  [2, 0, 2, 1, 2, 2], # bottom row
+  [0, 0, 1, 0, 2, 0], # left column
+  [0, 1, 1, 1, 2, 1], # middle column
+  [0, 2, 1, 2, 2, 2], # right column
+  [0, 0, 1, 1, 2, 2], # top-left to bottom-right diagonal
+  [0, 2, 1, 1, 2, 0]  # top-right to bottom-left diagonal
+]
+
+winning_combinations.each do |combo|
+  marks = combo.map { |row, col| board[row][col] }
+  if marks.uniq.length == 1 && marks[0] != " "
+    puts "The winner is #{marks[0]}!"
+    break
+  end
+end
   end
 
   def tie?
