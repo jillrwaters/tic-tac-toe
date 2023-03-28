@@ -21,8 +21,6 @@ class Board
         line[spot] = "#{mark.upcase}"
       end
     end
-     
-    
   end
 
   def empty_positions?
@@ -38,10 +36,6 @@ class Board
     # Check if all the spaces are full but there is no winner
   end
 end
-
-
-
-
 
 #------------------testing stuff
 
@@ -72,11 +66,7 @@ end
 
 # puts test.empty_positions?
 
-
-
 #-------------------------------
-
-
 
 class Player
   attr_accessor :get_move
@@ -104,19 +94,7 @@ end
 test_player = Player.new
 test_player2 = Player.new
 
-
-
-
-
 #-------------------------------
-
-
-
-
-
-
-
-
 
 class Game
   def initialize(player1, player2)
