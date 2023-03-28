@@ -1,5 +1,5 @@
 class Board
-  attr_reader :board, :display, :place_mark
+  attr_reader :board, :place_mark
   @@board = ["_1_|_2_|_3_",
              "_4_|_5_|_6_",
              " 7 | 8 | 9 "]
@@ -10,7 +10,7 @@ class Board
   end
 
   def place_mark(position, mark)
-    # Place a mark (X or O) on the board at the given position
+    # Place a mark (X or O) on the board at the given position -- Player.mark
     @@board.each do |line|
       if line.include?("#{position}")
         spot = line.index("#{position}")
@@ -30,14 +30,14 @@ class Board
   end
 end
 
-# test = Board.new
-# puts test.board
+test = Board.new
+puts test.board
 
 
 
 #------------------testing stuff
 
-require "pry-byebug" ; binding.pry
+# require "pry-byebug" ; binding.pry
 
 
 
