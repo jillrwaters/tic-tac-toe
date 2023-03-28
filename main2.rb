@@ -33,41 +33,76 @@ class Board
   def winner
     # Check if there is a winner (X or O) on the board
   end
+
+  def tie?
+    # Check if all the spaces are full but there is no winner
+  end
 end
 
-test = Board.new
-puts test.display
 
-puts test.empty_positions?
-
-test.place_mark(8, "x")
-
-puts test.display
-
-test.place_mark(1,'o')
-test.place_mark(2,'x')
-test.place_mark(3,'o')
-
-puts test.display
-
-test.place_mark(4,'o')
-test.place_mark(5,'o')
-test.place_mark(6,'o')
-
-test.place_mark(7,'x')
-test.place_mark(9,'x')
-
-test.display
-
-puts test.empty_positions?
 
 
 
 #------------------testing stuff
 
 # require "pry-byebug" ; binding.pry
+# test = Board.new
+# puts test.display
+
+# puts test.empty_positions?
+
+# test.place_mark(8, "x")
+
+# puts test.display
+
+# test.place_mark(1,'o')
+# test.place_mark(2,'x')
+# test.place_mark(3,'o')
+
+# puts test.display
+
+# test.place_mark(4,'o')
+# test.place_mark(5,'o')
+# test.place_mark(6,'o')
+
+# test.place_mark(7,'x')
+# test.place_mark(9,'x')
+
+# test.display
+
+# puts test.empty_positions?
 
 
+
+#-------------------------------
+
+
+
+class Player
+  attr_accessor :get_move
+
+  def initialize(name="player", mark="x/o")
+    puts "Please enter the player's name:"
+    @name = gets.chomp
+    puts "Please choose x or o:"
+    @mark = gets.chomp
+
+    puts "Welcome to Tic-Tac-Toe, #{@name}!. You have chosen #{@mark} as your marker."
+  end
+
+  def get_move
+    # Get a move from the player (i.e., a position on the board)
+    puts "#{@name}: please enter a number from the board to mark a spot."
+    gets.chomp
+  end
+end
+
+#------------------testing stuff
+
+# require "pry-byebug" ; binding.pry
+
+test_player = Player.new
+test_player2 = Player.new
 
 
 
@@ -77,18 +112,11 @@ puts test.empty_positions?
 
 
 
-class Player
-  attr_reader :name, :mark
 
-  def initialize(name, mark)
-    @name = name
-    @mark = mark
-  end
 
-  def get_move
-    # Get a move from the player (i.e., a position on the board)
-  end
-end
+
+
+
 
 class Game
   def initialize(player1, player2)
