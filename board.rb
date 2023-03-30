@@ -1,25 +1,16 @@
-class Board
-  attr_reader :board
+# PROMPTS
 
-  def initialize(board)
-    @board = board
-  end
+# TIC - TAC - TOE
+# Please enter a name:
+# Please choose x or o:
 
-  def detect_winner
-    winning_combinations = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8], # horizontal
-      [0, 3, 6], [1, 4, 7], [2, 5, 8], # vertical
-      [0, 4, 8], [2, 4, 6] # diagonal
-    ]
+# Your turn, #{name}!
 
-    winning_combinations.each do |combo|
-      if board[combo[0]] != "" &&
-         board[combo[0]] == board[combo[1]] &&
-         board[combo[1]] == board[combo[2]]
-        return board[combo[0]]
-      end
-    end
+# -- are there open spots?
 
-    return nil
-  end
-end
+# -- are there any wins (consecutive markers 3x?)
+  # -- if so, show the winner
+
+# -- show the board between each turn
+  # -- 
+
