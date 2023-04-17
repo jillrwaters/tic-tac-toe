@@ -29,8 +29,49 @@ def show_choices
 end
 
 
-get_player_two_choice
-show_choices
+
+
+# a class to initialize two players per game
+
+class PlayerSet
+  attr_accessor :player_one_marks, :player_two_marks
+  attr_reader :player_one_choice, :player_two_choice
+
+  def initialize
+    puts "Player 1, please enter x or o"
+    @player_one_choice = validate_choice(gets.chomp)
+    @player_two_choice = determine_player_two_choice(@player_one_choice)
+    puts "Player 1 has chosen #{@player_one_choice}. Player 2 is #{@player_two_choice}."
+    @player_one_marks = []
+    @player_two_marks = []
+  end
+
+  def validate_choice(choice)
+    choice.downcase!
+    while choice
+      case choice == gets.chomp
+      when 'x' || 'o'
+        return choice
+      else
+        puts "Please enter x or o."
+      end
+    end
+    
+  end
+
+  def determine_player_two_choice(player_one_choice)
+    if player_one_choice == 'x'
+      return "o"
+    else
+      return "x"
+    end
+  end
+
+end
+
+players = PlayerSet.new
+puts "Player 1 testing: #{players.player_one_choice}"
+puts "Player 2 testing: #{players.player_two_choice}"
 
 # show the game board
 
