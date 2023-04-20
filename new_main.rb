@@ -4,7 +4,6 @@ puts "\n***WELCOME TO TIC TAC TOE***"
 
 # 2 players per game
 class PlayerSet
-  attr_accessor :player_one_marks, :player_two_marks
   attr_reader :player_one, :player_two
 
   def initialize
@@ -37,12 +36,13 @@ end
 
 players = PlayerSet.new
 
-# show the game board
+# show/manipulate the game board based on player turns, check for and announce winner
 class Game
-  @current_turn = 'x'
+  @current_turn = @player_one_mark
   attr_accessor :board
 
-  def initialize(player_one_mark,  player_two_mark)
+  def initialize(player_one_mark, player_two_mark)
+    # use player.player_one and player.player_two
     @player_one_mark = player_one_mark
     @player_two_mark = player_two_mark
     @board = ['_1_|_2_|_3_', '4_|_5_|_6_', ' 7 | 8 | 9 ']
@@ -51,46 +51,63 @@ class Game
     @o_marks = []
   end
 
+  def collect_player_move(player)
+    # player = current player
+    # user input must be number 1-9
+    # add the move to appropriate array
+  end
+
+  def announce_turn
+    # shows whose turn it is
+  end
+
   def place_mark(position, mark)
-    # Place a mark (X or O) on the board at the given position --
-    # mark will be players.player_one or players.player_two
+    # position is from collect_player_move
+    # mark is @player_one_mark or @player_two_mark
     @board.each do |line|
       if line.include?(position.to_s)
         spot = line.index(position.to_s)
         line[spot] = mark.upcase.to_s
       end
     end
+    # move to another method?
     @x_marks << position if mark == 'x'
     @o_marks << position if mark == 'o'
   end
 
-
-
   def switch_player
-
+    # switch @current_turn to current player
   end
 
   def keep_playing?
-
+    # are there empty spaces still on the board
+    # has someone already won the game
+    # is there a tie
   end
 
   def has_winner?
+    # do either of the marks arrays contain a winning combination in any order
 
   end
 
   def announce_winner
-
+    # show which player has winning combination or announce tie
+    # end game
   end
 
-
+  def play
+    # loop methods until there is a winner or tie
+  end
 end
 
 puts "\nBelow is the game board. To mark a spot, enter the number where you wish to place your mark. Let the games begin! Hey-o!"
 puts "\n"
 
-tic_tac_toe = Game.new
+tic_tac_toe = Game.new(players.player_one, players.player_two)
 puts tic_tac_toe.board
 puts "\n"
+
+
 
 # ask first player to choose a number to mark a spot
 
