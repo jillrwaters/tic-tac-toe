@@ -54,7 +54,7 @@ class Game
   def collect_player_move(player)
     # player = current player
     # user input must be number 1-9
-    # add the move to appropriate array
+    # add the move to appropriate array (also see place_mark)
   end
 
   def announce_turn
@@ -70,7 +70,7 @@ class Game
         line[spot] = mark.upcase.to_s
       end
     end
-    # move to another method?
+    # move to collect_player_move?
     @x_marks << position if mark == 'x'
     @o_marks << position if mark == 'o'
   end
