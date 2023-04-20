@@ -85,9 +85,8 @@ class Game
     # is there a tie
   end
 
-  def has_winner?
+  def winner?
     # do either of the marks arrays contain a winning combination in any order
-
   end
 
   def announce_winner
