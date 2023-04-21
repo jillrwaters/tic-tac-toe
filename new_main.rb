@@ -40,13 +40,13 @@ players = PlayerSet.new
 class Game
   attr_accessor :board
   attr_reader :play, :x_marks, :o_marks
+  @@winning_combinations = [[123], [456], [789], [147], [258], [369], [357], [159]]
 
   def initialize(player_one_mark, player_two_mark)
     # use player.player_one and player.player_two
     @player_one_mark = player_one_mark
     @player_two_mark = player_two_mark
-    @board = ['_1_|_2_|_3_', ' 4_|_5_|_6_', ' 7 | 8 | 9 ']
-    @winning_combinations = [[123], [456], [789], [147], [258], [369], [357], [159]]
+    @board = ['_1_|_2_|_3_', '_4_|_5_|_6_', ' 7 | 8 | 9 ']
     @x_marks = []
     @o_marks = []
     @current_turn = [@player_one_mark, @player_two_mark].sample
@@ -60,7 +60,7 @@ class Game
       @current_turn = @player_one_mark
     end
 
-# require 'pry-byebug' ; binding.pry
+# 
 
   end
 
@@ -95,17 +95,35 @@ class Game
   
 
   def keep_playing?
-    true
+    true if spaces_left? && !winner?
     # are there empty spaces still on the board
     # has someone already won the game
-    # is there a tie
+  end
+
+  def spaces_left?
+    @board.any? { |line| line.match?(/\p{Digit}/.to_s) }
+  end
+
+  def tie?
+    !spaces_left? && !winner?
   end
 
   def winner?
     # do either of the marks arrays contain a winning combination in any order
+    # @@winning_combinations.each do |win|
+    #   if (@current_turn == 'x' && x_marks.include?(win)) || (@current_turn == 'o' && o_marks.include?(win))
+    #     return true
+    #   end
+    # end
+    false
   end
 
   def announce_winner
+    if tie?
+      puts "It's a tie!"
+    else
+      puts "This game is over"
+    end
     # show which player has winning combination or announce tie
     # end game
   end
@@ -118,7 +136,8 @@ class Game
       puts @board
       switch_player
     end
-
+    # require 'pry-byebug' ; binding.pry
+    announce_winner
   end
 end
 
