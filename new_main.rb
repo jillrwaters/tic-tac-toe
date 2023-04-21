@@ -10,7 +10,7 @@ class PlayerSet
     puts "\nPlayer 1, please enter x or o"
     @player_one = validate_choice(gets.chomp)
     @player_two = determine_player_two_choice(@player_one)
-    puts "\nPlayer 1 has chosen #{@player_one}. Player 2 is #{@player_two}."
+    puts "\nPlayer 1 has chosen #{@player_one}. Player 2 is #{@player_two}. The first turn will be determined randomly."
   end
 
   def validate_choice(choice)
@@ -38,17 +38,30 @@ players = PlayerSet.new
 
 # show/manipulate the game board based on player turns, check for and announce winner
 class Game
-  @current_turn = @player_one_mark
   attr_accessor :board
+  attr_reader :play, :x_marks, :o_marks
 
   def initialize(player_one_mark, player_two_mark)
     # use player.player_one and player.player_two
     @player_one_mark = player_one_mark
     @player_two_mark = player_two_mark
-    @board = ['_1_|_2_|_3_', '4_|_5_|_6_', ' 7 | 8 | 9 ']
+    @board = ['_1_|_2_|_3_', ' 4_|_5_|_6_', ' 7 | 8 | 9 ']
     @winning_combinations = [[123], [456], [789], [147], [258], [369], [357], [159]]
     @x_marks = []
     @o_marks = []
+    @current_turn = [@player_one_mark, @player_two_mark].sample
+  end
+
+  def switch_player
+    # switch @current_turn to current player
+    if @current_turn == @player_one_mark
+      @current_turn = @player_two_mark
+    elsif @current_turn == @player_two_mark
+      @current_turn = @player_one_mark
+    end
+
+# require 'pry-byebug' ; binding.pry
+
   end
 
   def collect_player_move(player)
@@ -59,6 +72,10 @@ class Game
 
   def announce_turn
     # shows whose turn it is
+    message = ', it is your turn. Enter a number 1-9 to place your mark.'
+    puts 'Player 1' + message if @current_turn == @player_one_mark
+    puts 'Player 2' + message if @current_turn == @player_two_mark
+    
   end
 
   def place_mark(position, mark)
@@ -75,11 +92,10 @@ class Game
     @o_marks << position if mark == 'o'
   end
 
-  def switch_player
-    # switch @current_turn to current player
-  end
+  
 
   def keep_playing?
+    true
     # are there empty spaces still on the board
     # has someone already won the game
     # is there a tie
@@ -96,6 +112,13 @@ class Game
 
   def play
     # loop methods until there is a winner or tie
+    while keep_playing?
+      announce_turn
+      place_mark(gets.chomp, @current_turn)
+      puts @board
+      switch_player
+    end
+
   end
 end
 
@@ -105,6 +128,8 @@ puts "\n"
 tic_tac_toe = Game.new(players.player_one, players.player_two)
 puts tic_tac_toe.board
 puts "\n"
+
+tic_tac_toe.play
 
 
 
