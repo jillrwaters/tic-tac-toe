@@ -124,9 +124,9 @@ class Game
 
   def announce_winner
     if tie?
-      puts "It's a tie!"
+      puts 'It\'s a tie!'
     else
-      puts "This game is over"
+      puts 'This game is over'
     end
     # show which player has winning combination or announce tie
     # end game
