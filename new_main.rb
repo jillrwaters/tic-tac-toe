@@ -108,6 +108,10 @@ class Game
     !spaces_left? && !winner?
   end
 
+  def already_entered?(input)
+    true if @x_marks.include?(input) || @o_marks.include?(input)
+  end
+
   def winner?
     # do either of the marks arrays contain a winning combination in any order
     # @@winning_combinations.each do |win|
