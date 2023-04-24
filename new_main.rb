@@ -111,10 +111,19 @@ class Game
   end
 
   def winner?
-    @@winning_combinations.any? {x_marks.sort.join.to_i || o_marks.sort.join.to_i}
+    @@winning_combinations.each do |combo|
+      if x_marks.sort.join.to_s.include?(combo.join.to_s)
+        puts "\nGAME OVER \n x wins!"
+        exit
+      elsif o_marks.sort.join.to_s.include?(combo.join.to_s)
+        puts "\nGAME OVER \n o wins!"
+        exit
+      end
+    end
+    false
   end
 
-  def announce_winner
+  def end_game
     if tie?
       puts 'It\'s a tie!'
     else
@@ -133,7 +142,7 @@ class Game
       switch_player
     end
     # require 'pry-byebug' ; binding.pry
-    announce_winner
+    end_game
   end
 end
 
