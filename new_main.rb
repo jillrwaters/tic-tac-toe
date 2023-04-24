@@ -113,15 +113,25 @@ class Game
   def winner?
     @@winning_combinations.each do |combo|
       if x_marks.sort.join.to_s.include?(combo.join.to_s)
-        puts "\nGAME OVER \n x wins!"
+        if @player_one_mark == 'x'
+          puts "\nGAME OVER \n\nPlayer 1 wins!"
+        elsif @player_two_mark == 'x'
+          puts "\nGAME OVER \n\nPlayer 2 wins!"
+        end
         exit
       elsif o_marks.sort.join.to_s.include?(combo.join.to_s)
-        puts "\nGAME OVER \n o wins!"
+        if @player_one_mark == 'o'
+          puts "\nGAME OVER \n\nPlayer 1 wins!"
+        elsif @player_two_mark == 'o'
+          puts "\nGAME OVER \n\nPlayer 2 wins!"
+        end
         exit
       end
     end
     false
   end
+
+  
 
   def end_game
     if tie?
