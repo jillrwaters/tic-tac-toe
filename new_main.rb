@@ -60,21 +60,21 @@ class Game
       @current_turn = @player_one_mark
     end
 
-# 
-
   end
 
-  def collect_player_move(player)
+  def record_mark(position, mark)
     # player = current player
     # user input must be number 1-9
     # add the move to appropriate array (also see place_mark)
+    @x_marks << position if mark == 'x'
+    @o_marks << position if mark == 'o'
   end
 
   def announce_turn
     # shows whose turn it is
-    message = ', it is your turn. Enter a number 1-9 to place your mark.'
-    puts 'Player 1' + message if @current_turn == @player_one_mark
-    puts 'Player 2' + message if @current_turn == @player_two_mark
+    message = ', it is your turn. Enter a number 1-9 to place your '
+    puts "Player 1#{message}'#{@player_one_mark}'." if @current_turn == @player_one_mark
+    puts "Player 2#{message}'#{@player_two_mark}'." if @current_turn == @player_two_mark
     
   end
 
@@ -86,10 +86,8 @@ class Game
         spot = line.index(position.to_s)
         line[spot] = mark.upcase.to_s
       end
-    end
-    # move to collect_player_move?
-    @x_marks << position if mark == 'x'
-    @o_marks << position if mark == 'o'
+    end    
+    record_mark(position, @current_turn)
   end
 
   
@@ -113,13 +111,7 @@ class Game
   end
 
   def winner?
-    # do either of the marks arrays contain a winning combination in any order
-    # @@winning_combinations.each do |win|
-    #   if (@current_turn == 'x' && x_marks.include?(win)) || (@current_turn == 'o' && o_marks.include?(win))
-    #     return true
-    #   end
-    # end
-    false
+    @@winning_combinations.any? {x_marks.sort.join || o_marks.sort.join}
   end
 
   def announce_winner
@@ -153,6 +145,10 @@ puts tic_tac_toe.board
 puts "\n"
 
 tic_tac_toe.play
+puts "---"
+puts tic_tac_toe.x_marks
+puts "---"
+puts tic_tac_toe.o_marks
 
 
 
