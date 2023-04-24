@@ -84,9 +84,10 @@ class Game
     @board.each do |line|
       if line.include?(position.to_s)
         spot = line.index(position.to_s)
-        line[spot] = mark.upcase.to_s
+        line[spot] = mark.to_s
       end
     end    
+    validate_position(position)
     record_mark(position, @current_turn)
   end
 
@@ -131,7 +132,17 @@ class Game
     false
   end
 
-  
+  def validate_position(num)
+    retries = 5
+    if !(1..9).include?(num.to_i) || (x_marks.include?(num.to_i) || o_marks.include?(num.to_i))
+      puts "YOU CAN'T CHOOSE #{num} SILLY. Try again:"
+
+      exit
+    else
+      # ask again and keep asking until they enter a valid position
+      num
+    end
+  end
 
   def end_game
     if tie?
@@ -148,7 +159,12 @@ class Game
     while keep_playing?
       announce_turn
       place_mark(gets.chomp, @current_turn)
+      puts "\n"
       puts @board
+      puts "\n"
+      puts "x's choices: #{x_marks}"
+      puts "o's choices: #{o_marks}"
+      puts "\n"
       switch_player
     end
     # require 'pry-byebug' ; binding.pry
