@@ -87,8 +87,8 @@ class Game
         line[spot] = mark.to_s
       end
     end    
-    validate_position(position)
-    record_mark(position, @current_turn)
+    
+    record_mark(position, @current_turn) # if validate_position(position)
   end
 
   
@@ -133,13 +133,13 @@ class Game
   end
 
   def validate_position(num)
-    retries = 5
-    if !(1..9).include?(num.to_i) || (x_marks.include?(num.to_i) || o_marks.include?(num.to_i))
+    if !(1..9).include?(num.to_i)
       puts "YOU CAN'T CHOOSE #{num} SILLY. Try again:"
-
-      exit
+      false
+    elsif x_marks.include?(num) || o_marks.include?(num)
+      puts "#{num} has already been chosen. Try again:"
+      false
     else
-      # ask again and keep asking until they enter a valid position
       num
     end
   end
@@ -156,16 +156,21 @@ class Game
 
   def play
     # loop methods until there is a winner or tie
+    
     while keep_playing?
       announce_turn
-      place_mark(gets.chomp, @current_turn)
+      # ask again and keep asking until they enter a valid position
+      begin
+        input = gets.chomp
+      rescue validate_position(input)
+        retry
+      end
+      place_mark(input, @current_turn)
       puts "\n"
       puts @board
-      puts "\n"
-      puts "x's choices: #{x_marks}"
-      puts "o's choices: #{o_marks}"
-      puts "\n"
+      puts "\n\nx's choices: #{x_marks}\n\no's choices: #{o_marks}\n"
       switch_player
+      
     end
     # require 'pry-byebug' ; binding.pry
     end_game
