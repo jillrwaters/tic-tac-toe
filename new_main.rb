@@ -111,7 +111,7 @@ class Game
   end
 
   def winner?
-    @@winning_combinations.any? {x_marks.sort.join || o_marks.sort.join}
+    @@winning_combinations.any? {x_marks.sort.join.to_i || o_marks.sort.join.to_i}
   end
 
   def announce_winner
