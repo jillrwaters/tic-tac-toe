@@ -132,17 +132,17 @@ class Game
     false
   end
 
-  def validate_position(num)
-    if !(1..9).include?(num.to_i)
-      puts "YOU CAN'T CHOOSE #{num} SILLY. Try again:"
-      false
-    elsif x_marks.include?(num) || o_marks.include?(num)
-      puts "#{num} has already been chosen. Try again:"
-      false
-    else
-      num
-    end
-  end
+  # def validate_position(num)
+  #   if !(1..9).include?(num.to_i)
+  #     puts "YOU CAN'T CHOOSE #{num} SILLY. Try again:"
+  #     false
+  #   elsif x_marks.include?(num) || o_marks.include?(num)
+  #     puts "#{num} has already been chosen. Try again:"
+  #     false
+  #   else
+  #     num
+  #   end
+  # end
 
   def end_game
     if tie?
@@ -161,8 +161,12 @@ class Game
       announce_turn
       # ask again and keep asking until they enter a valid position
       begin
-        input = gets.chomp
-      rescue validate_position(input)
+        input = gets.chomp.to_i
+        if input < 1 || input > 9 || x_marks.include?(input) || o_marks.include?(input)
+          raise "\nERROR\nYour input is invalid. Enter a number 1-9 that has not already been entered."
+        end
+      rescue => e
+        puts e.message
         retry
       end
       place_mark(input, @current_turn)
