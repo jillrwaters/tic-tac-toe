@@ -1,43 +1,36 @@
-# GAME SEQUENCE:
-
-puts "\n***WELCOME TO TIC TAC TOE***"
-
-# 2 players per game
+# create a set of 2 players per game
 class PlayerSet
   attr_reader :player_one, :player_two
 
   def initialize
-    puts "\nPlayer 1, please enter x or o"
-    @player_one = validate_choice(gets.chomp)
+    puts "\nPlayer 1, please enter x or o."
+    @player_one = validate_choice
     @player_two = determine_player_two_choice(@player_one)
-    puts "\nPlayer 1 has chosen #{@player_one}. Player 2 is #{@player_two}. The first turn will be determined randomly."
+    puts "\n\nPlayer 1: #{@player_one} | Player 2: #{@player_two}\nThe first turn will be determined randomly.\n"
   end
 
-  def validate_choice(choice)
-    # get first player's choice and only accept input if it is x or o, non-case sensitive but converts to lowercase
-    choice.downcase!
-    if %w[x o].include?(choice)
-      choice
-    else
-      puts "\nYou can only choose x or o, not '#{choice}'. Please start over."
-      exit
+  def validate_choice
+    # for player 1 choosing x or o. only accepts x or o
+    begin
+      choice = gets.chomp.downcase
+      raise "\nERROR\nEnter x or o." unless %w[x o].include?(choice)
+    rescue => e
+      puts e.message
+      retry
     end
+    choice
   end
 
-  def determine_player_two_choice(player_one) 
+  def determine_player_two_choice(player_one)
     # second player is automatically x or o based on first player's choice
-    if player_one == 'x'
-      'o'
-    else
-      'x'
-    end
+    player_one == 'x' ? 'o' : 'x'
   end
 end
 
 # show/manipulate the game board based on player turns, check for and announce winner
 class Game
   attr_accessor :board
-  attr_reader :play, :x_marks, :o_marks
+  attr_reader :start_game, :play, :x_marks, :o_marks
 
   @@winning_combinations = [[123], [456], [789], [147], [258], [369], [357], [159]]
 
@@ -45,7 +38,7 @@ class Game
     # use player.player_one and player.player_two
     @player_one_mark = player_one_mark
     @player_two_mark = player_two_mark
-    @board = ['_1_|_2_|_3_', '_4_|_5_|_6_', ' 7 | 8 | 9 ']
+    @board = ['               _1_|_2_|_3_', '               _4_|_5_|_6_', '                7 | 8 | 9 ']
     @x_marks = []
     @o_marks = []
     @current_turn = [@player_one_mark, @player_two_mark].sample # randomly pick first to play
@@ -61,22 +54,25 @@ class Game
   end
 
   def record_mark(position, mark)
-    # add the move to appropriate array
+    # add move to the appropriate array
     @x_marks << position if mark == 'x'
     @o_marks << position if mark == 'o'
   end
 
   def announce_turn
     message = ', it is your turn. Enter a number 1-9 to place your '
-    puts "Player 1#{message}'#{@player_one_mark}'." if @current_turn == @player_one_mark
-    puts "Player 2#{message}'#{@player_two_mark}'." if @current_turn == @player_two_mark
+    puts "\n***Player 1#{message}'#{@player_one_mark}'." if @current_turn == @player_one_mark
+    puts "\n***Player 2#{message}'#{@player_two_mark}'." if @current_turn == @player_two_mark
   end
 
   def choose_position
+    # ask player to enter a number and then mark the board
     begin
       input = gets.chomp.to_i
-      if !(1..9).include?(input) || already_entered?(input)
-        raise "\nERROR\nYour input is invalid. Enter a number 1-9 that has not already been entered."
+      if !(1..9).include?(input)
+        raise "\nERROR\nEnter a number 1-9."
+      elsif already_entered?(input)
+        raise "\nERROR\nEnter a number that has not already been entered."
       end
     rescue => e
       puts e.message
@@ -86,7 +82,7 @@ class Game
   end
 
   def place_mark(position, mark)
-    # place the mark on the board in the chosen position (1-9)
+    # place the mark on the board in the chosen position (1-9) and store the position
     @board.each do |line|
       if line.include?(position.to_s)
         spot = line.index(position.to_s)
@@ -133,17 +129,15 @@ class Game
     false
   end
 
-  def start_game
-    puts "\nBelow is the game board. To mark a spot, enter the number where you wish to place your mark. \n\nLet the games begin! Hey-o!\n\n"
-  end
-
   def end_game
     puts 'It\'s a tie!' if tie?
-    # when nobody won but all spots are taken
+    # nobody won but all spots are taken
   end
 
   def play
-    start_game
+    puts
+    puts @board
+    puts
     # loop methods until there is a winner or tie
     while keep_playing?
       announce_turn
@@ -156,6 +150,8 @@ class Game
     end_game
   end
 end
+
+puts "\n          ***WELCOME TO TIC TAC TOE***\n\nLet the games begin! Hey-o!\n\n"
 
 players = PlayerSet.new
 tic_tac_toe = Game.new(players.player_one, players.player_two)
