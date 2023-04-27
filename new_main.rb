@@ -78,7 +78,7 @@ class Game
       puts e.message
       retry
     end
-    place_mark(input, @current_turn)
+    input
   end
 
   def place_mark(position, mark)
@@ -141,7 +141,7 @@ class Game
     # loop methods until there is a winner or tie
     while keep_playing?
       announce_turn
-      choose_position
+      place_mark(choose_position, @current_turn)
       puts
       puts @board
       puts
